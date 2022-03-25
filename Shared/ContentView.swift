@@ -25,6 +25,7 @@ struct ContentView: View {
     
     @State var psiArray: [[Double]] = []
     @State var nodes = 10
+    @State var potentialYValues: [Double] = []
     
     @State var isChecked:Bool = false
     @State var tempInput = ""
@@ -59,7 +60,7 @@ struct ContentView: View {
                 
                 Button("Plot Psi"){
             
-                    matrix.performMatrixOperations()
+                    matrix.performMatrixOperations(potential: potentialYValues)
                     
                     var i = 0
                     for item in matrix.energies{
@@ -71,9 +72,12 @@ struct ContentView: View {
                             break
                         }
                     }
-                    print("energy", energyArray)
                     psiArray = matrix.psi
 
+                }
+                
+                Button("clear"){
+                    psiArray.removeAll()
                 }
             
                 
@@ -123,6 +127,10 @@ struct ContentView: View {
     }
     
     func selectPotential(potentialType: String) {
+        
+        let stepSize = matrix.wellLength/(matrix.Nvalues)
+        potentials.deltaX = stepSize
+        
         switch potentialType {
         
             case "Square Well":
@@ -144,7 +152,16 @@ struct ContentView: View {
             
             //Calculate the new plotting data and place in the plotDataModel
             calculator.PEx(dataPoints: potentials.potentialArray)
-
+        
+        var i = 0
+        potentialYValues.removeAll()
+        for item in potentials.potentialArray{
+//            self.potentialYValues[i] = item.yPoint
+            self.potentialYValues.append(item.yPoint)
+            i += 1
+        }
+        
+        print(potentialYValues)
         
     }
     

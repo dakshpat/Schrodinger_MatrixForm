@@ -22,7 +22,7 @@ class InfiniteSquarePotentials: NSObject, ObservableObject {
         
         let numberOfSteps = ((rightX - leftX) / deltaX)
         
-        potentialArray.append((xPoint: 0.0, yPoint: 100000.0))
+        potentialArray.append((xPoint: leftX, yPoint: 100000.0))
        
         for i in 1...Int(numberOfSteps) {
             

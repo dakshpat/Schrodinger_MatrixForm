@@ -15,9 +15,29 @@ class matrixCalculate: NSObject, ObservableObject {
     var energies: [Double] = []
     var psi: [[Double]] = []
     var wellLength = 10.0
-    let Nvalues = 30.0
+    let Nvalues = 100.0
     
-    func performMatrixOperations() {
+    func infiniteWellEnergies(node: Int) -> Double{
+
+        let energy1 = 0.376
+        
+        return energy1*pow(Double(node),2)
+    }
+    
+    func wavefunc(node: Int, xValue: Double) -> Double{
+        let coeff = sqrt(2/wellLength)
+        let psi = coeff*sin((Double(node)*Double.pi*xValue)/wellLength)
+        
+        return psi
+    }
+    
+    func integral(){
+        ///expecation value of Psi*V(x)*Psi 
+        
+    }
+    
+    func performMatrixOperations(potential: [Double]) {
+        
         
         /* Calculate Eigenvalues */
         
@@ -26,31 +46,34 @@ class matrixCalculate: NSObject, ObservableObject {
         //let a = [[[Int]]](repeating:[[Int]](repeating:[Int](repeating:1,count:3), count:3), count:3)
         let hbarOverM = 7.61996423107385308868
         let stepSize = wellLength/(Nvalues)
+        ///the hamiltonian operator
         let H = -1.0*hbarOverM/(2*pow(stepSize,2))
         
         var realStartingArray: [[Double]] = []
         
+        ///creating the matrix
         for i in  0...Int(Nvalues)-1{
             var array = Array(repeating: 0.0, count: Int(Nvalues))
            
             if (i == 0){
-                array[i] = -2.0*H
-                array[i+1] = 1.0*H
+                array[i] = -2.0*H + potential[i]
+                array[i+1] = 1.0*H + potential[i]
             }
             
             else if (i == Int(Nvalues)-1){
-                array[i] = -2.0*H
-                array[i-1] = 1.0*H
+                array[i] = -2.0*H + potential[i]
+                array[i-1] = 1.0*H + potential[i]
             }
             
             else {
-                array[i-1] =  1.0*H
-                array[i]   = -2.0*H
-                array[i+1] =  1.0*H
+                array[i-1] =  1.0*H + potential[i]
+                array[i]   = -2.0*H + potential[i]
+                array[i+1] =  1.0*H + potential[i]
             }
             
             realStartingArray.append(array)
             
+            print("potential y values: ", potential[i])
         }
         
         
