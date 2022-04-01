@@ -30,6 +30,7 @@ struct ContentView: View {
     @State var isChecked:Bool = false
     @State var tempInput = ""
   
+    @State var array: [Double] = []
 
     var body: some View {
         
@@ -61,6 +62,7 @@ struct ContentView: View {
                 Button("Plot Psi"){
             
                     matrix.performMatrixOperations(potential: potentialYValues)
+                    array = matrix.energies
                     
                     let sortedEnergyArray = matrix.energies.sorted()
                     
@@ -119,7 +121,7 @@ struct ContentView: View {
         var i = 0
         print("energy selected", energy)
         
-        for item in matrix.energies{
+        for item in array{
             
             let matrixEnergy = String(format: "%.3f", item)
             
