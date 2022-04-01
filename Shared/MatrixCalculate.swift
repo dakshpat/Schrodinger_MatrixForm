@@ -73,7 +73,7 @@ class matrixCalculate: NSObject, ObservableObject {
             
             realStartingArray.append(array)
             
-            print("potential y values: ", potential[i])
+
         }
         
         
@@ -131,7 +131,7 @@ class matrixCalculate: NSObject, ObservableObject {
         var workspaceQuery: Double = 0.0
         dgeev_(UnsafeMutablePointer(mutating: ("N" as NSString).utf8String), UnsafeMutablePointer(mutating: ("V" as NSString).utf8String), &N, &flatArray, &N2, &wr, &wi, &vl, &N3, &vr, &N4, &workspaceQuery, &lwork, &error)
         
-        print("Workspace Query \(workspaceQuery)")
+  
         
         /* size workspace per the results of the query */
         

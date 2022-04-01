@@ -39,7 +39,7 @@ class CalculatePlotData: NSObject, ObservableObject {
         
         for xPoint in stride(from: xMin, to: xMax, by: xStep){
             
-            dataPoint = [.X: xPoint, .Y: Psi[i]]
+            dataPoint = [.X: xPoint, .Y: Psi[i]*2.0]
             plotData.append(contentsOf: [dataPoint])
             i += 1
           

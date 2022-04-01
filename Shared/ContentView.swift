@@ -19,7 +19,7 @@ struct ContentView: View {
     var Potential = ["Square Well", "Linear Well", "Parabola"]
     @State var selectedPotential = "Square Well"
     
-    @State var energyPlacement = 0
+//    @State var energyPlacement = 0
     @State var energyArray: [String] = []
     @State var energies = ""
     
@@ -62,8 +62,10 @@ struct ContentView: View {
             
                     matrix.performMatrixOperations(potential: potentialYValues)
                     
+                    let sortedEnergyArray = matrix.energies.sorted()
+                    
                     var i = 0
-                    for item in matrix.energies{
+                    for item in sortedEnergyArray{
                         if(i < nodes){
                             energyArray.append(String(format: "%.3f", item))
                             i += 1
@@ -78,6 +80,7 @@ struct ContentView: View {
                 
                 Button("clear"){
                     psiArray.removeAll()
+                    energyArray.removeAll()
                 }
             
                 
@@ -101,9 +104,9 @@ struct ContentView: View {
     }
 
     
-    func plotPsi(){
+    func plotPsi(energyPlacement: Int){
         
-        let psiArray = self.psiArray[self.energyPlacement]
+        let psiArray = self.psiArray[energyPlacement]
         let stepSize = matrix.wellLength/(matrix.Nvalues)
         
         calculator.plotDataModel = self.plotDataModel
@@ -114,16 +117,20 @@ struct ContentView: View {
     
     func getArrayPlacement(energy: String) {
         var i = 0
+        print("energy selected", energy)
         
-        for item in energyArray{
+        for item in matrix.energies{
             
-            if(energy == item){
-                self.energyPlacement = i
+            let matrixEnergy = String(format: "%.3f", item)
+            
+            if(energy == matrixEnergy){
+                break
             }
             
             i += 1
         }
-        plotPsi()
+        print("placement: ", i)
+        plotPsi(energyPlacement: i)
     }
     
     func selectPotential(potentialType: String) {
@@ -160,8 +167,6 @@ struct ContentView: View {
             self.potentialYValues.append(item.yPoint)
             i += 1
         }
-        
-        print(potentialYValues)
         
     }
     
